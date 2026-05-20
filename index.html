@@ -1,248 +1,298 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Happy Birthday</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كل سنة وأنتِ طيبة ✨</title>
+    <style>
+        :root {
+            --rose-color: #d62828;
+            --rose-dark: #780016;
+            --stem-color: #2d6a4f;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #fbf7f5 0%, #eee4e1 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Cairo',sans-serif;
-}
+        /* ===== الوردة الاحترافية المتحركة ===== */
+        .rose-container {
+            position: relative;
+            width: 200px;
+            height: 260px;
+            margin-bottom: 20px;
+        }
 
-body{
-    height:100vh;
-    overflow:hidden;
-    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-}
+        /* أنيميشن نمو الساق */
+        .rose-stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 160px;
+            background: var(--stem-color);
+            border-radius: 4px;
+            transform-origin: bottom center;
+            animation: growStem 2s ease-in-out forwards;
+        }
 
-/* النجوم */
-.stars{
-    position:absolute;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
+        /* أوراق الشجر بتفاصيل حقيقية */
+        .rose-leaf {
+            position: absolute;
+            width: 35px;
+            height: 20px;
+            background: #40916c;
+            border-radius: 0 20px 0 20px;
+            opacity: 0;
+            transform-origin: left bottom;
+        }
+        .rose-leaf.left {
+            left: -30px;
+            top: 70px;
+            transform: rotate(-30px) scale(0);
+            animation: growLeafLeft 1s 1.5s ease-in-out forwards;
+        }
+        .rose-leaf.right {
+            right: -30px;
+            top: 40px;
+            transform: scaleX(-1) rotate(-30deg) scale(0);
+            transform-origin: right bottom;
+            animation: growLeafRight 1s 1.8s ease-in-out forwards;
+        }
 
-.stars span{
-    position:absolute;
-    width:4px;
-    height:4px;
-    background:white;
-    border-radius:50%;
-    animation:blink 2s infinite;
-}
+        /* برعم الوردة الطبقات */
+        .rose-flower {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            transform: translateX(-50%) scale(0);
+            transform-origin: bottom center;
+            animation: bloom 2.5s 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
 
-@keyframes blink{
-    0%,100%{opacity:.2}
-    50%{opacity:1}
-}
+        /* تصميم البتلات المتداخلة لإعطاء عمق مجسم */
+        .petal-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--rose-color);
+            box-shadow: inset 0 0 15px var(--rose-dark), 0 4px 10px rgba(0,0,0,0.15);
+        }
 
-/* الوردة */
-.flower-container{
-    position:relative;
-    width:220px;
-    height:220px;
-    margin-bottom:30px;
-}
+        .petal-layer.center {
+            width: 30px;
+            height: 30px;
+            top: 25px;
+            left: 25px;
+            background: var(--rose-dark);
+            z-index: 5;
+            border-radius: 50% 50% 0 50%;
+            transform: rotate(-45deg);
+        }
 
-.center{
-    position:absolute;
-    width:55px;
-    height:55px;
-    background:#ffcc00;
-    border-radius:50%;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    z-index:5;
-    box-shadow:0 0 20px rgba(255,255,255,.7);
-}
+        .petal-layer.middle {
+            width: 54px;
+            height: 54px;
+            top: 13px;
+            left: 13px;
+            background: linear-gradient(135deg, var(--rose-color), #a71d2a);
+            z-index: 4;
+            transform: rotate(15deg);
+            border-radius: 50% 60% 50% 60%;
+        }
 
-.petal{
-    position:absolute;
-    width:90px;
-    height:90px;
-    background:#ff4f81;
-    border-radius:50%;
-    top:50%;
-    left:50%;
-    transform-origin:center bottom;
-    opacity:0;
-    animation:openFlower 2s forwards;
-}
+        .petal-layer.outer-1 {
+            z-index: 3;
+            border-radius: 40% 60% 40% 60%;
+            transform: rotate(-20deg);
+        }
 
-.petal:nth-child(1){
-    transform:translate(-50%,-50%) rotate(0deg) translateY(-50px);
-    animation-delay:.2s;
-}
-.petal:nth-child(2){
-    transform:translate(-50%,-50%) rotate(45deg) translateY(-50px);
-    animation-delay:.4s;
-}
-.petal:nth-child(3){
-    transform:translate(-50%,-50%) rotate(90deg) translateY(-50px);
-    animation-delay:.6s;
-}
-.petal:nth-child(4){
-    transform:translate(-50%,-50%) rotate(135deg) translateY(-50px);
-    animation-delay:.8s;
-}
-.petal:nth-child(5){
-    transform:translate(-50%,-50%) rotate(180deg) translateY(-50px);
-    animation-delay:1s;
-}
-.petal:nth-child(6){
-    transform:translate(-50%,-50%) rotate(225deg) translateY(-50px);
-    animation-delay:1.2s;
-}
-.petal:nth-child(7){
-    transform:translate(-50%,-50%) rotate(270deg) translateY(-50px);
-    animation-delay:1.4s;
-}
-.petal:nth-child(8){
-    transform:translate(-50%,-50%) rotate(315deg) translateY(-50px);
-    animation-delay:1.6s;
-}
+        .petal-layer.outer-2 {
+            z-index: 2;
+            border-radius: 60% 40% 60% 40%;
+            transform: rotate(40deg);
+            background: #e63946;
+        }
 
-@keyframes openFlower{
-    0%{
-        opacity:0;
-        transform:translate(-50%,-50%) scale(0);
-    }
-    100%{
-        opacity:1;
-    }
-}
+        /* ===== كود حركات الوردة ===== */
+        @keyframes growStem {
+            from { height: 0; }
+            to { height: 160px; }
+        }
+        @keyframes bloom {
+            to { transform: translateX(-50%) scale(1); }
+        }
+        @keyframes growLeafLeft {
+            to { opacity: 1; transform: rotate(-15deg) scale(1); }
+        }
+        @keyframes growLeafRight {
+            to { opacity: 1; transform: scaleX(-1) rotate(-15deg) scale(1); }
+        }
 
-/* الزرار */
-.open-btn{
-    padding:14px 35px;
-    border:none;
-    border-radius:40px;
-    background:white;
-    color:#ff4f81;
-    font-size:18px;
-    cursor:pointer;
-    font-weight:bold;
-    box-shadow:0 8px 20px rgba(0,0,0,.2);
-    transition:.3s;
-}
 
-.open-btn:hover{
-    transform:scale(1.08);
-}
+        /* ===== الجواب الاحترافي ===== */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 180px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
 
-/* الجواب */
-.letter{
-    position:absolute;
-    width:320px;
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    text-align:center;
-    color:#444;
-    line-height:2;
-    box-shadow:0 15px 35px rgba(0,0,0,.2);
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    opacity:0;
-    transition:.8s;
-}
+        .envelope {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #d62828;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
 
-.letter.show{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:1;
-}
+        /* مثلث غطاء الجواب */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 105px solid #e63946;
+            transform-origin: top;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+        }
 
-.letter h2{
-    color:#ff4f81;
-    margin-bottom:15px;
-}
+        .envelope.open::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
 
-.heart{
-    font-size:35px;
-    animation:heartbeat 1s infinite;
-    margin-top:10px;
-}
+        /* كارت الرسالة بالداخل */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            width: 290px;
+            height: 155px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 1;
+            opacity: 0;
+        }
 
-@keyframes heartbeat{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.2)}
-    100%{transform:scale(1)}
-}
+        /* خروج الرسالة لأعلى بسلاسة وثبات */
+        .envelope.open .letter {
+            transform: translateY(-130px);
+            height: auto;
+            min-height: 200px;
+            opacity: 1;
+            z-index: 4;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.08);
+        }
 
-.hide{
-    display:none;
-}
-</style>
+        .letter h2 {
+            font-size: 1.2rem;
+            color: #d62828;
+            margin: 0 0 12px 0;
+            font-weight: bold;
+        }
+
+        .letter p {
+            font-size: 0.95rem;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* الزرار */
+        .btn-open {
+            background: #d62828;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .btn-open:hover {
+            background: #780016;
+            transform: translateY(-2px);
+        }
+
+        .btn-open:disabled {
+            background: #999;
+            box-shadow: none;
+            transform: none;
+            cursor: default;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="stars"></div>
+    <!-- الوردة المجسمة المحترفة -->
+    <div class="rose-container">
+        <div class="rose-stem">
+            <div class="rose-leaf left"></div>
+            <div class="rose-leaf right"></div>
+        </div>
+        <div class="rose-flower">
+            <div class="petal-layer outer-2"></div>
+            <div class="petal-layer outer-1"></div>
+            <div class="petal-layer middle"></div>
+            <div class="petal-layer center"></div>
+        </div>
+    </div>
 
-<div class="flower-container" id="flower">
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="center"></div>
-</div>
+    <!-- الجواب -->
+    <div class="envelope-container">
+        <div class="envelope" id="envelope">
+            <div class="letter">
+                <h2>كل سنة وأنتِ طيبة يا غالية! 🎂✨</h2>
+                <p>اليوم ده مش عيد ميلادك أنتِ وبس، ده عيد ميلاد الأيام الحلوة اللي جمعتني بيكِ. ربنا يديمك في حياتي يا سندي وسري وفرحتي الكبيرة. بتمنالك سنة كلها نجاح وفرحة شبه قلبك! 💗</p>
+            </div>
+        </div>
+    </div>
 
-<button class="open-btn" onclick="openLetter()">
-    افتحي الجواب 💌
-</button>
+    <!-- زر التفاعل الرئيسي -->
+    <button class="btn-open" id="openBtn" onclick="toggleEnvelope()">اضغطي هنا لفتح الجواب 💌</button>
 
-<div class="letter" id="letter">
-    <h2>Happy Birthday 🎂</h2>
-
-    <p>
-        كل سنة وانتي أجمل حاجة حصلت 💖<br>
-        يارب ضحكتك تفضل منورة الدنيا دايمًا ✨<br>
-        وتحققي كل اللي نفسك فيه 🌸
-    </p>
-
-    <div class="heart">❤️</div>
-</div>
-
-<script>
-
-/* نجوم عشوائية */
-const starsContainer = document.querySelector('.stars');
-
-for(let i=0;i<80;i++){
-    let star=document.createElement('span');
-
-    star.style.top=Math.random()*100+'%';
-    star.style.left=Math.random()*100+'%';
-    star.style.animationDelay=Math.random()*2+'s';
-
-    starsContainer.appendChild(star);
-}
-
-/* فتح الجواب */
-function openLetter(){
-    document.getElementById('letter').classList.add('show');
-    document.querySelector('.open-btn').classList.add('hide');
-    document.getElementById('flower').style.transform="scale(.8)";
-}
-
-</script>
+    <script>
+        function toggleEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const btn = document.getElementById('openBtn');
+            
+            envelope.classList.add('open');
+            btn.innerText = 'عيد ميلاد سعيد! 🎉';
+            btn.disabled = true;
+        }
+    </script>
 
 </body>
 </html>
