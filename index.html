@@ -197,7 +197,7 @@
             color: white;
             border: none;
             padding: 14px 45px;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
@@ -209,13 +209,6 @@
         .btn-open:hover {
             background: #c71585;
             transform: translateY(-2px);
-        }
-
-        .btn-open:disabled {
-            background: #999;
-            box-shadow: none;
-            transform: none;
-            cursor: default;
         }
 
         /* حركة خفيفة للوردة الكبيرة */
@@ -246,52 +239,54 @@
         <div class="envelope" id="envelope">
             <div class="letter">
                 <h2>كل سنة وأنتِ طيبة يا شهود! 🎉🎂</h2>
-                <p><span class="highlight">♥️</span>العمر كل ليكي ياحبيبي وتحققي كل الي تتمنيه.</p>
-                <p>🥹♥️♥️♥️♥️كل عام وأنتي بصحى وسعاده دايما ياقلبي مليانة فرحه ونجاح، وراحة بال وتبقي احسن دكتوره وشكرا بجد انك دليما جنبي وبتسمعيني وبتهتمي بيا ياحبيبي ورنا يدمك ليا لاف يوووو ياشهوددد .</p>
+                <p><span class="highlight">♥️</span>العمر كله ليكي ياحبيبي وتحققي كل الي تتمنيه.</p>
+                <p>🥹♥️♥️♥️♥️كل عام وأنتي بصحة وسعادة دايماً ياقلبي مليانة فرحة ونجاح وراحة بال وتبقي أحسن دكتورة وشكرا بجد إنك دايماً جنبي وبتسمعيني وبتهتمي بيا ياحبيبي وربنا يديمك ليا لاف يوووو ياشهوددد .</p>
                 <p class="highlight" style="font-size: 1.2rem; margin-top: 15px;">🌸 عيد ميلاد سعيد 🌸</p>
             </div>
         </div>
     </div>
 
-    <!-- زر التفاعل المباشر لفتح الجواب -->
-    <button class="btn-open" id="openBtn" onclick="openEnvelope()">💌</button>
+    <!-- زر التفاعل المباشر لفتح وغلق الجواب -->
+    <button class="btn-open" id="openBtn" onclick="toggleEnvelope()">💌</button>
 
     <script>
-        // دالة تشغيل أنيميشن الجواب
-        function openEnvelope() {
+        // دالة تشغيل وقفل أنيميشن الجواب بالتناوب
+        function toggleEnvelope() {
             const envelope = document.getElementById('envelope');
             const btn = document.getElementById('openBtn');
             
-            envelope.classList.add('open');
-            btn.innerText = 'عيد ميلاد سعيد! 💖';
-            btn.disabled = true;
+            // لو الجواب مفتوح.. اقفله
+            if (envelope.classList.contains('open')) {
+                envelope.classList.remove('open');
+                btn.innerText = '💌'; // يرجع لشكل الجواب المقفول
+            } else {
+                // لو مقفول.. افتحه
+                envelope.classList.add('open');
+                btn.innerText = '💖'; // يقلب لقلب دليل على الفتح
+            }
         }
 
         // دالة إنشاء وصناعة الورد المتساقط في الخلفية بشكل تلقائي ومتجدد
         const roseTypes = ['🌸', '🌹', '✨', '💮', ' pétales']; 
-        // المزيج ده بيعمل شكل بتلات ورد حقيقي وناعم جداً بيتساقط في الخلفية
         function createFallingRose() {
             const rose = document.createElement('div');
             rose.classList.add('falling-rose');
             
-            // اختيار عشوائي لشكل البتلة أو الوردة اللطيفة
             const currentRose = roseTypes[Math.floor(Math.random() * roseTypes.length)];
             rose.innerText = currentRose === ' pétales' ? '🌸' : currentRose; 
             
             rose.style.left = Math.random() * 100 + 'vw';
             rose.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
-            rose.style.animationDuration = (Math.random() * 3 + 4) + 's'; // سرعة هادية ومريحة للعين بدون هز
+            rose.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
             rose.style.opacity = Math.random() * 0.7 + 0.3;
             
             document.body.appendChild(rose);
 
-            // حذف الوردة بعد ما تخرج بره الشاشة عشان الصفحة تفضل سريعة
             setTimeout(() => {
                 rose.remove();
             }, 6000);
         }
 
-        // تكرار التساقط بانتظام ناعم ومستمر
         setInterval(createFallingRose, 250);
     </script>
 
